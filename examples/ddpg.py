@@ -1,8 +1,11 @@
 """
 Example of running PyTorch implementation of DDPG on HalfCheetah.
 """
+import gym
 from gym.envs.mujoco import HalfCheetahEnv
-
+from gym.envs.mujoco import ReacherEnv
+from gym.envs.mujoco import PusherEnv
+import ipdb; ipdb.set_trace()
 from rlkit.envs.wrappers import NormalizedBoxEnv
 from rlkit.exploration_strategies.base import (
     PolicyWrappedWithExplorationStrategy
@@ -15,7 +18,9 @@ import rlkit.torch.pytorch_util as ptu
 
 
 def experiment(variant):
-    env = NormalizedBoxEnv(HalfCheetahEnv())
+    #env = NormalizedBoxEnv(HalfCheetahEnv())
+    import ipdb; ipdb.set_trace()
+    env = NormalizedBoxEnv(PusherEnv())
     # Or for a specific version:
     # import gym
     # env = NormalizedBoxEnv(gym.make('HalfCheetah-v1'))
@@ -43,6 +48,7 @@ def experiment(variant):
         exploration_policy=exploration_policy,
         **variant['algo_params']
     )
+    import ipdb; ipdb.set_trace()
     if ptu.gpu_enabled():
         algorithm.cuda()
     algorithm.train()
@@ -50,6 +56,7 @@ def experiment(variant):
 
 if __name__ == "__main__":
     # noinspection PyTypeChecker
+    ptu.set_gpu_mode(True)
     variant = dict(
         algo_params=dict(
             num_epochs=1000,
